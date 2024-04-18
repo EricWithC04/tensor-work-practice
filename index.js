@@ -12,49 +12,48 @@ for (let i = 0; i < 10; i++) {
     matrix.push(row)
 }
 
-async function verificarMemoria() {
-    const maxTamanioBytes = 64 * 1024 * 1024;
+async function memoryVerify() {
+    const bytesMaxSize = 64 * 1024 * 1024;
 
     let tensor1 = tf.tensor2d(matrix);
     let tensor2 = tf.tensor2d(matrix);
-    let tensorResultado = tf.tensor2d(matrix);
+    let finalTensor = tf.tensor2d(matrix);
 
-    let primerTensor = true
+    let firstTensor = true
 
-    const memoriaElemento = document.getElementById('memoria');
+    const memoryElement = document.getElementById('memory');
 
     while (true) {
-        if (primerTensor) {
-            tensorResultado = tensorResultado.mul(tensor1)
+        if (firstTensor) {
+            finalTensor = finalTensor.mul(tensor1)
             tensor1 = tensor1.mul(tensor2)
         } else {
-            tensorResultado = tensorResultado.mul(tensor2)
+            finalTensor = finalTensor.mul(tensor2)
             tensor2 = tensor1.mul(tensor1)
         }
 
-        const memoria = tf.memory();
-        const memoriaMB = memoria.numBytes / (1024 * 1024);
-        const mensaje = `Uso de memoria: ${memoriaMB.toFixed(2)} MB`;
-        console.log(mensaje);
+        const tensorMemory = tf.memory();
+        const memoryInMB = tensorMemory.numBytes / (1024 * 1024);
+        const consoleMsg = `Uso de memoria: ${memoryInMB.toFixed(2)} MB`;
+        console.log(consoleMsg);
 
-        memoriaElemento.innerHTML = mensaje;
+        memoryElement.innerHTML = consoleMsg;
 
-        if (memoria.numBytes > maxTamanioBytes) {
-            memoriaElemento.innerHTML += "<br>Se superó el límite de 64MB.";
-            console.log("Se superó el límite de 64MB.");
-            console.log("Liberando memoria...");
-            document.getElementById('tensorResultante').innerHTML = tensorResultado.toString();
-            tensorResultado.print()
+        if (tensorMemory.numBytes > bytesMaxSize) {
+            memoryElement.innerHTML += "<br>Límite de 64MB alcanzado.";
+            console.log("Límite de 64MB alcanzado.");
+            document.getElementById('finalTensor').innerHTML = finalTensor.toString();
+            finalTensor.print()
             tensor1.dispose();
             tensor2.dispose();
-            tensorResultado.dispose();
+            finalTensor.dispose();
             break;
         }
 
-        primerTensor = !primerTensor;
+        firstTensor = !firstTensor;
 
         await new Promise(resolve => setTimeout(resolve, 1));
     }
 }
 
-verificarMemoria();
+memoryVerify();
