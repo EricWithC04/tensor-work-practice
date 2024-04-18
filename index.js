@@ -1,22 +1,23 @@
-const matriz = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 1],
-    [2, 3, 4, 5, 6, 7, 8, 9, 1, 2],
-    [3, 4, 5, 6, 7, 8, 9, 1, 2, 3],
-    [4, 5, 6, 7, 8, 9, 1, 2, 3, 4],
-    [5, 6, 7, 8, 9, 1, 2, 3, 4, 5],
-    [6, 7, 8, 9, 1, 2, 3, 4, 5, 6],
-    [7, 8, 9, 1, 2, 3, 4, 5, 6, 7],
-    [8, 9, 1, 2, 3, 4, 5, 6, 7, 8],
-    [9, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 1]
-];
+const matrix = [];
+
+for (let i = 0; i < 10; i++) {
+    let row = []
+    for (let j = 0; j < 10; j++) {
+        if (j + 1 == 10) {
+            row.push(1)
+        } else {
+            row.push(j + 1)
+        }
+    }
+    matrix.push(row)
+}
 
 async function verificarMemoria() {
     const maxTamanioBytes = 64 * 1024 * 1024;
 
-    let tensor1 = tf.tensor2d(matriz);
-    let tensor2 = tf.tensor2d(matriz);
-    let tensorResultado = tf.tensor2d(matriz);
+    let tensor1 = tf.tensor2d(matrix);
+    let tensor2 = tf.tensor2d(matrix);
+    let tensorResultado = tf.tensor2d(matrix);
 
     let primerTensor = true
 
