@@ -34,7 +34,7 @@ async function verificarMemoria() {
         const memoria = tf.memory();
         const memoriaMB = memoria.numBytes / (1024 * 1024);
         const mensaje = `Uso de memoria: ${memoriaMB.toFixed(2)} MB`;
-        console.log(tensorResultado);
+        console.log(mensaje);
 
         memoriaElemento.innerHTML = mensaje;
 
@@ -42,8 +42,11 @@ async function verificarMemoria() {
             memoriaElemento.innerHTML += "<br>Se superó el límite de 64MB.";
             console.log("Se superó el límite de 64MB.");
             console.log("Liberando memoria...");
+            document.getElementById('tensorResultante').innerHTML = tensorResultado.toString();
+            tensorResultado.print()
             tensor1.dispose();
             tensor2.dispose();
+            tensorResultado.dispose();
             break;
         }
 
